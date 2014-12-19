@@ -200,7 +200,7 @@ class Screen_shot_model extends CI_Model
 	function screenshot(){
 		
 		$curr_date = date('Y-m-d');
-		$query ="SELECT alarm.*, target_screen.url, target_screen.width, target_screen.height  
+		$query ="SELECT alarm.*, target_screen.url, target_screen.width, target_screen.height, target_screen.mature_link  
 
 					FROM `alarm`
 					
@@ -253,7 +253,6 @@ class Screen_shot_model extends CI_Model
 		   'url' => $row['url'] ,
 		   'image' => $image,
 		   'timing' => date('Y-m-d H:i:s')
-		   
 		);
 		
 		if($image) $this->db->insert('screen_shots', $data);
@@ -270,8 +269,14 @@ class Screen_shot_model extends CI_Model
 		}
 		
 		$name = 'img_'. str_ireplace("==", "", base64_encode(time())).".jpg";
-	
-		shell_exec('DISPLAY=:2 sudo java  -Dwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver -jar /screencapture/ScreenCapture.jar '. $url);
+		
+		
+		if($data['mature_link'] == 1) $ssh = 'DISPLAY=:2 sudo java  -Dwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver -jar /screencapture/ScreenCapture.jar '. $url;
+		else  $ssh = 'DISPLAY=:2 sudo java  -Dwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver -jar /screencapture/ScreenCapture.without.click.jar '. $url;
+		
+		
+		shell_exec($ssh);
+		
 		$image = "/var/www/screenshot.jpg";
 		$target = "/var/www/admin/images/".$name;
 		
@@ -292,7 +297,7 @@ class Screen_shot_model extends CI_Model
 		
 			$merger = "composite ". $img1." ".$img2." ".$img3;
 			$escaped_command = escapeshellcmd($merger);
-	    	shell_exec($escaped_command);
+	    	exec($escaped_command);
 			
 		}
 		

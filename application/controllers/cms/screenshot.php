@@ -128,7 +128,8 @@ class Screenshot extends MY_Controller
 				'url'		=>$this->addhttp($this->input->post('url')),
 				'width'		=>($this->input->post('width')!="")?$this->input->post('width'):0,
 				'height'	=>($this->input->post('height')!="")?$this->input->post('height'):0,
-				'datetime' 	=> $datetime
+				'datetime' 	=> $datetime,
+				'mature_link' => ($this->input->post('mature_link')!="")?$this->input->post('mature_link'):0
 			);
 			
 			

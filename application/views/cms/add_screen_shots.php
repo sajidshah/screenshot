@@ -50,6 +50,11 @@
 						</div>
 					</div>
 					
+					<div class="form-group">
+						<label for="mature_link" class="col-sm-2">Channel with Mature link?</label>
+						<input type="checkbox" <?php echo ($site['mature_link']==1)? 'checked':''; ?> name="mature_link" value="1" />
+					</div>
+					
 					<div class="form-group">    
 		                <label for="repeating" class="col-sm-2 control-label">Repeating</label>
 		                <div class='input-group date col-sm-10'>
