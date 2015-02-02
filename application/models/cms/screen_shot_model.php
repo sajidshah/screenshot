@@ -271,8 +271,14 @@ class Screen_shot_model extends CI_Model
 		$name = 'img_'. str_ireplace("==", "", base64_encode(time())).".jpg";
 		
 		
-		if($data['mature_link'] == 1) $ssh = 'DISPLAY=:2 sudo java  -Dwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver -jar /screencapture/ScreenCapture.jar '. $url;
-		else  $ssh = 'DISPLAY=:2 sudo java  -Dwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver -jar /screencapture/ScreenCapture.without.click.jar '. $url;
+		if($data['mature_link'] == 1) {
+			$ssh = 'DISPLAY=:2 sudo java  -Dwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver -jar /screencapture/ScreenCapture.with.click.1200.jar '. $url;
+			$data['width'] = 1200;
+		}
+		else{
+			$ssh = 'DISPLAY=:2 sudo java  -Dwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver -jar /screencapture/ScreenCapture.without.click.jar '. $url;
+			$data['width'] = 1600;
+		}  
 		
 		
 		shell_exec($ssh);
@@ -307,7 +313,7 @@ class Screen_shot_model extends CI_Model
 	
 	public function phantom($data){
 	    
-		$url = 'http://104.131.163.49/phantom/shot.php?url='.str_replace('\'', '', $data['url']).'&w=1200&h='.$data['height'];
+		$url = 'http://104.131.163.49/phantom/shot.php?url='.str_replace('\'', '', $data['url']).'&w='.$data['width'].'&h='.$data['height'];
 		return $html = file_get_contents($url);
 	    
 	}
